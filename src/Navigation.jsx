@@ -1,6 +1,4 @@
-import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-
 // Iconen voor actieve en niet-actieve status
 import homeIcon from './assets/icons/home.svg';
 import homeActiveIcon from './assets/icons/home-active.svg';

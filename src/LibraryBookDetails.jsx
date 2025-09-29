@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { supabase } from './utils/supabase'
+import { supabase } from './utils/supabase';
 
 import closeIcon from './assets/icons/close.svg';
 
@@ -48,12 +48,12 @@ const LibraryBookDetails = () => {
   // Button 1: Start Reading
   const handleStartReading = async () => {
     const today = new Date().toISOString();
-  
-    const { data, error } = await supabase
+
+    const { error } = await supabase
       .from("library")
       .update({ start_reading: today })
       .eq("id", id)
-      .select();  // Adding select() to get the updated data
+      .select(); // Keep .select() for consistency with handleRemoveFromLibrary
   
     if (error) {
       console.error("Error updating start_reading:", error.message);
@@ -74,7 +74,7 @@ const LibraryBookDetails = () => {
 
   // Button 2: Remove from Library
   const handleRemoveFromLibrary = async () => {
-    const { data, error } = await supabase
+    const { error } = await supabase
       .from("library")
       .update({ in_library: false })
       .eq("id", id)
@@ -107,7 +107,7 @@ const LibraryBookDetails = () => {
   const handleSubmitPopup = async () => {
     const today = new Date().toISOString();
 
-    const { data, error } = await supabase
+    const { error } = await supabase
       .from("library")
       .update({
         end_reading: today,
@@ -132,6 +132,50 @@ const LibraryBookDetails = () => {
       } else {
         setBook(updatedBook);  // Update the state with the updated data
         setShowPopup(false); // Close the popup after submission
+      }
+    }
+  };
+
+  // Wishlist button handlers
+  const handleCheckOnBol = () => {
+    const formattedTitle = book.title.replace(/\s+/g, '+');
+    const formattedAuthor = book.author.replace(/\s+/g, '+');
+    const searchQuery = `${formattedTitle}+${formattedAuthor}`;
+    const bolUrl = `https://www.bol.com/nl/nl/s/?searchtext=${searchQuery}`;
+    window.open(bolUrl, '_blank');
+  };
+
+  const handleAddToLibrary = () => {
+    const searchParams = new URLSearchParams({
+      title: book.title,
+      author: book.author
+    });
+    navigate(`/add-book-library?${searchParams.toString()}`);
+  };
+
+  const handleRemoveFromWishlist = async () => {
+    const today = new Date().toISOString();
+
+    const { error } = await supabase
+      .from("library")
+      .update({ off_wishlist: today })
+      .eq("id", id)
+      .select();
+
+    if (error) {
+      console.error("Error removing from wishlist:", error.message);
+    } else {
+      const { data: updatedBook, error: fetchError } = await supabase
+        .from("library")
+        .select()
+        .eq("id", id)
+        .single();
+
+      if (fetchError) {
+        console.error("Error fetching updated book data:", fetchError.message);
+      } else {
+        setBook(updatedBook);
+        navigate("/wishlist");
       }
     }
   };
@@ -161,8 +205,17 @@ const LibraryBookDetails = () => {
             </div>
           )}
 
-          {/* Show Start Reading button only if no start_reading date is set */}
-          {!book.start_reading && (
+          {/* Show wishlist buttons if book is on wishlist (has on_wishlist date) */}
+          {book.on_wishlist && (
+            <div className="wishlist-buttons">
+              <button className="main-button" onClick={handleCheckOnBol}>Check on Bol.com</button>
+              <button className="main-button" onClick={handleAddToLibrary}>Add to Library</button>
+              <button className="remove-button" onClick={handleRemoveFromWishlist}>Remove from Wishlist</button>
+            </div>
+          )}
+
+          {/* Show Start Reading button only if no start_reading date is set and not on wishlist */}
+          {!book.start_reading && !book.on_wishlist && (
             <button className="main-button" onClick={handleStartReading}>Start Reading</button>
           )}
 

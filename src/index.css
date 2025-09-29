@@ -184,6 +184,11 @@ section {
   justify-content: space-between;
 }
 
+.library-book-block-genre-more {
+  display: flex;
+  justify-content: space-between;
+}
+
 .library-book-container-more, .library-list-more {
   font-style: italic;
   text-decoration: none;
@@ -211,6 +216,12 @@ section {
   height: calc(100vh - 186px);
   overflow-y: auto;
   background-color: var(--library-yellow);
+}
+
+.crowne-icon {
+  width: 16px;
+  height: 16px;
+  margin: 0 4px -2px 0;
 }
 
 .library-list-author-more {

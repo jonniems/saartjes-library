@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom"; // to navigate to another page after adding a book
 import { supabase } from './utils/supabase'
 
@@ -19,7 +19,7 @@ const AddBookLibrary = () => {
     const inLibraryDate = inLibraryFrom === "today" ? new Date().toISOString().split("T")[0] : manualDate;
     
     // Add the new book to the Supabase database
-    const { data, error } = await supabase.from("library").insert([
+    const { error } = await supabase.from("library").insert([
       {
         title,
         author,

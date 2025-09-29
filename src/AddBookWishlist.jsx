@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom"; // to navigate to another page after adding a book
-import { supabase } from './utils/supabase'
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { supabase } from './utils/supabase';
 
 const AddBookWishlist = () => {
   const [title, setTitle] = useState("");
@@ -16,7 +16,7 @@ const AddBookWishlist = () => {
     setLoading(true);
     
     // Add the new book to the Supabase database
-    const { data, error } = await supabase.from("library").insert([
+    const { error } = await supabase.from("library").insert([
       {
         title,
         author,

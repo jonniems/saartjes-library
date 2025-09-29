@@ -21,7 +21,7 @@ function Header() {
   return (
     <header>
       <div className="library-header-container">
-        <div className="library-header-title">Saartje's Library</div>
+        <div className="library-header-title">Saartje&apos;s Library</div>
         <div className="library-header-add-button">
           <button onClick={handleButtonClick}>
             {/* Rotate image when popup is visible */}

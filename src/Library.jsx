@@ -1,7 +1,8 @@
 import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { supabase } from './utils/supabase'
+import { supabase } from "./utils/supabase";
 import { Link } from "react-router-dom";
+import crowneIcon from "./assets/icons/crowne.svg";
 
 function Library() {
   const [library, setLibrary] = useState([]);
@@ -35,20 +36,29 @@ function Library() {
   };
 
   const sortedLibrary = [...library].sort((a, b) => {
+    const aValue = (a[sortField] || "").toString().toLowerCase();
+    const bValue = (b[sortField] || "").toString().toLowerCase();
+
     if (sortOrder === "asc") {
-      return a[sortField]?.localeCompare(b[sortField]);
+      if (aValue < bValue) return -1;
+      if (aValue > bValue) return 1;
+      return 0;
     } else {
-      return b[sortField]?.localeCompare(a[sortField]);
+      if (aValue > bValue) return -1;
+      if (aValue < bValue) return 1;
+      return 0;
     }
   });
 
   const filteredLibrary = sortedLibrary.filter((item) => {
     const lowerCaseSearchTerm = searchTerm.toLowerCase();
-  
     const title = item.title ? item.title.toLowerCase() : "";
     const author = item.author ? item.author.toLowerCase() : "";
-  
-    return title.includes(lowerCaseSearchTerm) || author.includes(lowerCaseSearchTerm);
+
+    return (
+      title.includes(lowerCaseSearchTerm) ||
+      author.includes(lowerCaseSearchTerm)
+    );
   });
 
   useEffect(() => {
@@ -113,12 +123,22 @@ function Library() {
           <div key={item.id} className="library-list-item">
             <div className="library-list-currently">
               {item.start_reading &&
-                item.start_reading.split("T")[0] <= new Date().toISOString().split("T")[0] &&
-                !item.end_reading
+              item.start_reading.split("T")[0] <=
+                new Date().toISOString().split("T")[0] &&
+              !item.end_reading
                 ? "Currently reading"
                 : ""}
             </div>
-            <div className="library-list-title">{item.title}</div>
+            <div className="library-list-title">
+              {item.preservation_book && (
+                <img
+                  src={crowneIcon}
+                  alt="Preservation Book"
+                  className="crowne-icon"
+                />
+              )}
+              {item.title}
+            </div>
             <div className="library-list-author-more">
               <div className="library-list-author">{item.author}</div>
               <div className="library-list-more">
