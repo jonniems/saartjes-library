@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { supabase } from './utils/supabase';
+import supabase from './utils/supabase';
 
 const AddBookWishlist = () => {
   const [title, setTitle] = useState("");

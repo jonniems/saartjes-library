@@ -1,6 +1,6 @@
 import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { supabase } from "./utils/supabase";
+import supabase from "./utils/supabase";
 import { Link } from "react-router-dom";
 import crowneIcon from "./assets/icons/crowne.svg";
 import azDownIcon from "./assets/icons/az-down.svg";
