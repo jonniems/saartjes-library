@@ -2,6 +2,9 @@ import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { supabase } from './utils/supabase'
 import { Link } from "react-router-dom";
+import azDownIcon from "./assets/icons/az-down.svg";
+import zaDownIcon from "./assets/icons/za-down.svg";
+import moreIcon from "./assets/icons/more.svg";
 
 function Wishlist() {
   const [library, setWishlist] = useState([]);
@@ -97,13 +100,13 @@ function Wishlist() {
           <button onClick={() => handleSort(sortField)} className="sort-button">
             {sortOrder === "asc" ? (
               <img
-                src="./src/assets/icons/az-down.svg"
+                src={azDownIcon}
                 alt="Ascending"
                 className="sort-icon"
               />
             ) : (
               <img
-                src="./src/assets/icons/za-down.svg"
+                src={zaDownIcon}
                 alt="Descending"
                 className="sort-icon"
               />
@@ -128,7 +131,7 @@ function Wishlist() {
                 {/* Link naar de specifieke boekpagina */}
                 <Link to={`/book-details/${item.id}`}>
                   <span>see more</span>
-                  <img src="./src/assets/icons/more.svg" alt="More" />
+                  <img src={moreIcon} alt="More" />
                 </Link>
               </div>
             </div>
