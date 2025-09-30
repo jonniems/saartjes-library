@@ -6,6 +6,7 @@ import crowneIcon from "./assets/icons/crowne.svg";
 import azDownIcon from "./assets/icons/az-down.svg";
 import zaDownIcon from "./assets/icons/za-down.svg";
 import moreIcon from "./assets/icons/more.svg";
+import searchIcon from "./assets/icons/search.svg";
 
 function Library() {
   const [library, setLibrary] = useState([]);
@@ -85,6 +86,7 @@ function Library() {
       )}
       <div className="search-filter-container">
         <div className="search-container">
+          <img src={searchIcon} alt="" className="search-icon" />
           <input
             type="text"
             className="search-input"

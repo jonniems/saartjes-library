@@ -1,10 +1,11 @@
 import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { supabase } from './utils/supabase'
+import { supabase } from "./utils/supabase";
 import { Link } from "react-router-dom";
 import azDownIcon from "./assets/icons/az-down.svg";
 import zaDownIcon from "./assets/icons/za-down.svg";
 import moreIcon from "./assets/icons/more.svg";
+import searchIcon from "./assets/icons/search.svg";
 
 function History() {
   const [history, setHistory] = useState([]);
@@ -86,6 +87,7 @@ function History() {
       )}
       <div className="search-filter-container">
         <div className="search-container">
+          <img src={searchIcon} alt="" className="search-icon" />
           <input
             type="text"
             className="search-input"
@@ -108,17 +110,9 @@ function History() {
           </select>
           <button onClick={() => handleSort(sortField)} className="sort-button">
             {sortOrder === "asc" ? (
-              <img
-                src={azDownIcon}
-                alt="Ascending"
-                className="sort-icon"
-              />
+              <img src={azDownIcon} alt="Ascending" className="sort-icon" />
             ) : (
-              <img
-                src={zaDownIcon}
-                alt="Descending"
-                className="sort-icon"
-              />
+              <img src={zaDownIcon} alt="Descending" className="sort-icon" />
             )}
           </button>
         </div>

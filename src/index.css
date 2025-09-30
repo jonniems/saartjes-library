@@ -231,7 +231,6 @@ section {
 
 .search-filter-container {
   display: flex;
-  justify-content: space-between;
   position: sticky;
   border-bottom: 1px solid;
   margin-bottom: 12px;
@@ -241,25 +240,36 @@ section {
 }
 
 .search-container {
-  width: -webkit-fill-available;
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+.search-icon {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 16px;
+  height: 16px;
+  pointer-events: none;
 }
 
 .search-container input {
   background: none;
   border: none;
   font-size: 16px;
-  background-image: url('./src/assets/icons/search.svg');
-  background-repeat: no-repeat;
-  background-position: 0 center;
-  background-size: 16px;
   padding: 0 0 0 24px;
   min-height: 24px;
-  width: -webkit-fill-available;
+  width: calc(100% - 24px);
 }
 
 .search-container input::placeholder {
   color: var(--library-black);
   font-size: 16px;
+}
+
+.search-container input:focus-visible {
+  outline: none;
 }
 
 .sort-container {
