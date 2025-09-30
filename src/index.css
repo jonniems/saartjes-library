@@ -197,7 +197,6 @@ section {
 }
 
 .library-book-container-more a, .library-list-author-more a {
-  display: flex;
   color: var(--library-black);
 }
 
