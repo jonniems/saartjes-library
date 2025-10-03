@@ -1,4 +1,4 @@
-import Summary from '../Summary.jsx';
+import Summary from './summary.jsx';
 
 const Home = () => {
     return (
