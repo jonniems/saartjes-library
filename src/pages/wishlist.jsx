@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import supabase from "../utils/supabase";
 import { Link } from "react-router-dom";
 import moreIcon from "../assets/icons/more.svg";
-import SearchAndSort from "./components/searchandsort.jsx";
+import SearchAndSort from "../components/searchandsort.jsx";
 
 function Wishlist() {
   const [library, setWishlist] = useState([]);

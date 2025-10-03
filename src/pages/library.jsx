@@ -4,7 +4,7 @@ import supabase from "../utils/supabase";
 import { Link } from "react-router-dom";
 import crowneIcon from "../assets/icons/crowne.svg";
 import moreIcon from "../assets/icons/more.svg";
-import SearchAndSort from "./components/searchandsort.jsx";
+import SearchAndSort from "../components/searchandsort.jsx";
 
 function Library() {
   const [library, setLibrary] = useState([]);
