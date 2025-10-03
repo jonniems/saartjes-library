@@ -403,6 +403,29 @@ section {
   margin-bottom: 8px;
 }
 
+.random-pick-section {
+  display: flex;
+  margin: 20px;
+}
+
+.random-pick-button {
+  background-color: var(--library-black);
+  color: var(--library-yellow);
+  border: none;
+  padding: 12px;
+  font-size: 18px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center; 
+  gap: 8px;
+}
+
+.random-pick img {
+  height: 24px;
+  padding-left: 8px;
+}
+
 input[type="radio"],
 input[type="checkbox"] {
   display: none;
