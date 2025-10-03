@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom"; // to navigate to another page after adding a book
-import supabase from './utils/supabase'
+import supabase from '../utils/supabase'
 
 const AddBookLibrary = () => {
   const [title, setTitle] = useState("");

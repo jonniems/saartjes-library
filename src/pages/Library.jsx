@@ -1,12 +1,10 @@
 import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
-import supabase from "./utils/supabase";
+import supabase from "../utils/supabase";
 import { Link } from "react-router-dom";
-import crowneIcon from "./assets/icons/crowne.svg";
-import azDownIcon from "./assets/icons/az-down.svg";
-import zaDownIcon from "./assets/icons/za-down.svg";
-import moreIcon from "./assets/icons/more.svg";
-import searchIcon from "./assets/icons/search.svg";
+import crowneIcon from "../assets/icons/crowne.svg";
+import moreIcon from "../assets/icons/more.svg";
+import SearchAndSort from "../components/SearchAndSort";
 
 function Library() {
   const [library, setLibrary] = useState([]);
@@ -84,47 +82,18 @@ function Library() {
       {messageVisible && successMessage && (
         <div className="success-message">{successMessage}</div>
       )}
-      <div className="search-filter-container">
-        <div className="search-container">
-          <img src={searchIcon} alt="" className="search-icon" />
-          <input
-            type="text"
-            className="search-input"
-            placeholder="Search"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-        </div>
-        <div className="sort-container">
-          <label htmlFor="sort-select">Sort by:</label>
-          <select
-            id="sort-select"
-            value={sortField}
-            onChange={(e) => setSortField(e.target.value)}
-            className="sort-select"
-          >
-            <option value="title">Title</option>
-            <option value="author">Author</option>
-          </select>
-          <button onClick={() => handleSort(sortField)} className="sort-button">
-            {sortOrder === "asc" ? (
-              <img
-                src={azDownIcon}
-                alt="Ascending"
-                className="sort-icon"
-                style={{ width: "18px", height: "18px" }}
-              />
-            ) : (
-              <img
-                src={zaDownIcon}
-                alt="Descending"
-                className="sort-icon"
-                style={{ width: "18px", height: "18px" }}
-              />
-            )}
-          </button>
-        </div>
-      </div>
+      <SearchAndSort
+        searchTerm={searchTerm}
+        onSearchChange={setSearchTerm}
+        sortField={sortField}
+        onSortFieldChange={setSortField}
+        sortOrder={sortOrder}
+        onSortToggle={handleSort}
+        sortOptions={[
+          { value: "title", label: "Title" },
+          { value: "author", label: "Author" }
+        ]}
+      />
       {filteredLibrary.length > 0 ? (
         filteredLibrary.map((item) => (
           <div key={item.id} className="library-list-item">

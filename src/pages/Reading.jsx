@@ -1,14 +1,12 @@
 import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
-import supabase from "./utils/supabase";
+import supabase from "../utils/supabase";
 import { Link } from "react-router-dom";
-import azDownIcon from "./assets/icons/az-down.svg";
-import zaDownIcon from "./assets/icons/za-down.svg";
-import moreIcon from "./assets/icons/more.svg";
-import searchIcon from "./assets/icons/search.svg";
+import moreIcon from "../assets/icons/more.svg";
+import SearchAndSort from "../components/SearchAndSort";
 
-function Wishlist() {
-  const [library, setWishlist] = useState([]);
+function Reading() {
+  const [reading, setReading] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [sortField, setSortField] = useState("title");
   const [sortOrder, setSortOrder] = useState("asc");
@@ -19,21 +17,21 @@ function Wishlist() {
   const [messageVisible, setMessageVisible] = useState(false);
 
   useEffect(() => {
-    getWishlist();
+    getReading();
   }, []);
 
-  async function getWishlist() {
+  async function getReading() {
     const today = new Date().toISOString().split("T")[0]; // Get today's date in YYYY-MM-DD format
 
     const { data, error } = await supabase
       .from("library")
       .select()
-      .lte("on_wishlist", today)
-      .is("off_wishlist", null)
-      .eq("in_library", false);
+      .lte("start_reading", today)
+      .is("end_reading", null)
+      .eq("in_library", true);
 
     if (!error) {
-      setWishlist(data);
+      setReading(data);
     }
   }
 
@@ -42,7 +40,7 @@ function Wishlist() {
     setSortOrder(sortOrder === "asc" ? "desc" : "asc");
   };
 
-  const sortedWishlist = [...library].sort((a, b) => {
+  const sortedReading = [...reading].sort((a, b) => {
     if (sortOrder === "asc") {
       return a[sortField]?.localeCompare(b[sortField]);
     } else {
@@ -50,7 +48,7 @@ function Wishlist() {
     }
   });
 
-  const filteredWishlist = sortedWishlist.filter((item) => {
+  const filteredReading = sortedReading.filter((item) => {
     const lowerCaseSearchTerm = searchTerm.toLowerCase();
     return (
       item.title.toLowerCase().includes(lowerCaseSearchTerm) ||
@@ -77,48 +75,22 @@ function Wishlist() {
       {messageVisible && successMessage && (
         <div className="success-message">{successMessage}</div>
       )}
-      <div className="search-filter-container">
-        <div className="search-container">
-          <img src={searchIcon} alt="" className="search-icon" />
-          <input
-            type="text"
-            className="search-input"
-            placeholder="Search"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-        </div>
-        <div className="sort-container">
-          <label htmlFor="sort-select">Sort by:</label>
-          <select
-            id="sort-select"
-            value={sortField}
-            onChange={(e) => setSortField(e.target.value)}
-            className="sort-select"
-          >
-            <option value="title">Title</option>
-            <option value="author">Author</option>
-          </select>
-          <button onClick={() => handleSort(sortField)} className="sort-button">
-            {sortOrder === "asc" ? (
-              <img src={azDownIcon} alt="Ascending" className="sort-icon" />
-            ) : (
-              <img src={zaDownIcon} alt="Descending" className="sort-icon" />
-            )}
-          </button>
-        </div>
-      </div>
-      {filteredWishlist.length > 0 ? (
-        filteredWishlist.map((item) => (
+      <SearchAndSort
+        searchTerm={searchTerm}
+        onSearchChange={setSearchTerm}
+        sortField={sortField}
+        onSortFieldChange={setSortField}
+        sortOrder={sortOrder}
+        onSortToggle={handleSort}
+        sortOptions={[
+          { value: "title", label: "Title" },
+          { value: "author", label: "Author" }
+        ]}
+      />
+      {filteredReading.length > 0 ? (
+        filteredReading.map((item) => (
           <div key={item.id} className="library-list-item">
-            <div className="library-list-currently">
-              {item.start_reading &&
-              item.start_reading.split("T")[0] <=
-                new Date().toISOString().split("T")[0] &&
-              !item.end_reading
-                ? "Currently reading"
-                : ""}
-            </div>
+            <div className="library-list-currently">Currently reading</div>
             <div className="library-list-title">{item.title}</div>
             <div className="library-list-author-more">
               <div className="library-list-author">{item.author}</div>
@@ -134,10 +106,10 @@ function Wishlist() {
           </div>
         ))
       ) : (
-        <p>No results found</p>
+        <p>No books currently being read</p>
       )}
     </div>
   );
 }
 
-export default Wishlist;
+export default Reading;

@@ -1,15 +1,15 @@
 import { Link, useLocation } from 'react-router-dom';
 // Iconen voor actieve en niet-actieve status
-import homeIcon from './assets/icons/home.svg';
-import homeActiveIcon from './assets/icons/home-active.svg';
-import libraryIcon from './assets/icons/library.svg';
-import libraryActiveIcon from './assets/icons/library-active.svg';
-import heartIcon from './assets/icons/heart.svg';
-import heartActiveIcon from './assets/icons/heart-active.svg';
-import bookIcon from './assets/icons/book.svg';
-import bookActiveIcon from './assets/icons/book-active.svg';
-import historyIcon from './assets/icons/history.svg';
-import historyActiveIcon from './assets/icons/history-active.svg';
+import homeIcon from '../assets/icons/home.svg';
+import homeActiveIcon from '../assets/icons/home-active.svg';
+import libraryIcon from '../assets/icons/library.svg';
+import libraryActiveIcon from '../assets/icons/library-active.svg';
+import heartIcon from '../assets/icons/heart.svg';
+import heartActiveIcon from '../assets/icons/heart-active.svg';
+import bookIcon from '../assets/icons/book.svg';
+import bookActiveIcon from '../assets/icons/book-active.svg';
+import historyIcon from '../assets/icons/history.svg';
+import historyActiveIcon from '../assets/icons/history-active.svg';
 
 const Navigation = () => {
   const location = useLocation(); // Verkrijg het huidige pad

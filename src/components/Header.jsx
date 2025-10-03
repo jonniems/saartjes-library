@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-import CirclePlus from "./assets/icons/circle-plus.svg?react";
-import LibraryIcon from "./assets/icons/library.svg?react";
-import HeartIcon from "./assets/icons/heart.svg?react";
+import CirclePlus from "../assets/icons/circle-plus.svg?react";
+import LibraryIcon from "../assets/icons/library.svg?react";
+import HeartIcon from "../assets/icons/heart.svg?react";
 
 function Header() {
   const [isPopupVisible, setIsPopupVisible] = useState(false);

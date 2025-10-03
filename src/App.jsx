@@ -1,14 +1,14 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Home from "./Home";
-import Library from "./Library";
-import Wishlist from "./Wishlist";
-import Reading from "./Reading";
-import History from "./History";
-import Header from "./Header.jsx";
-import Navigation from "./Navigation.jsx";
-import LibraryBookDetails from "./LibraryBookDetails.jsx";
-import AddBookLibrary from "./AddBookLibrary.jsx";
-import AddBookWishlist from "./AddBookWishlist.jsx";
+import Home from "./pages/Home";
+import Library from "./pages/Library";
+import Wishlist from "./pages/Wishlist";
+import Reading from "./pages/Reading";
+import History from "./pages/History";
+import Header from "./components/Header.jsx";
+import Navigation from "./components/Navigation.jsx";
+import LibraryBookDetails from "./pages/LibraryBookDetails.jsx";
+import AddBookLibrary from "./pages/AddBookLibrary.jsx";
+import AddBookWishlist from "./pages/AddBookWishlist.jsx";
 
 function App() {
   return (

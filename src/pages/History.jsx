@@ -1,11 +1,9 @@
 import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
-import supabase from "./utils/supabase";
+import supabase from "../utils/supabase";
 import { Link } from "react-router-dom";
-import azDownIcon from "./assets/icons/az-down.svg";
-import zaDownIcon from "./assets/icons/za-down.svg";
-import moreIcon from "./assets/icons/more.svg";
-import searchIcon from "./assets/icons/search.svg";
+import moreIcon from "../assets/icons/more.svg";
+import SearchAndSort from "../components/SearchAndSort";
 
 function History() {
   const [history, setHistory] = useState([]);
@@ -85,38 +83,19 @@ function History() {
       {messageVisible && successMessage && (
         <div className="success-message">{successMessage}</div>
       )}
-      <div className="search-filter-container">
-        <div className="search-container">
-          <img src={searchIcon} alt="" className="search-icon" />
-          <input
-            type="text"
-            className="search-input"
-            placeholder="Search"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-        </div>
-        <div className="sort-container">
-          <label htmlFor="sort-select">Sort by:</label>
-          <select
-            id="sort-select"
-            value={sortField}
-            onChange={(e) => setSortField(e.target.value)}
-            className="sort-select"
-          >
-            <option value="end_reading">Finished Date</option>
-            <option value="title">Title</option>
-            <option value="author">Author</option>
-          </select>
-          <button onClick={() => handleSort(sortField)} className="sort-button">
-            {sortOrder === "asc" ? (
-              <img src={azDownIcon} alt="Ascending" className="sort-icon" />
-            ) : (
-              <img src={zaDownIcon} alt="Descending" className="sort-icon" />
-            )}
-          </button>
-        </div>
-      </div>
+      <SearchAndSort
+        searchTerm={searchTerm}
+        onSearchChange={setSearchTerm}
+        sortField={sortField}
+        onSortFieldChange={setSortField}
+        sortOrder={sortOrder}
+        onSortToggle={handleSort}
+        sortOptions={[
+          { value: "end_reading", label: "Finished Date" },
+          { value: "title", label: "Title" },
+          { value: "author", label: "Author" }
+        ]}
+      />
       {filteredHistory.length > 0 ? (
         filteredHistory.map((item) => (
           <div key={item.id} className="library-list-item">

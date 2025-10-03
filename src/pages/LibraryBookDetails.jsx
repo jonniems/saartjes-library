@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import supabase from './utils/supabase';
+import supabase from '../utils/supabase';
 
-import closeIcon from './assets/icons/close.svg';
+import closeIcon from '../assets/icons/close.svg';
 
 const LibraryBookDetails = () => {
   const { id } = useParams();  // Get book ID from URL
