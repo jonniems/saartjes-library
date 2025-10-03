@@ -12,7 +12,7 @@ import AddBookWishlist from "./pages/AddBookWishlist.jsx";
 
 function App() {
   return (
-    <Router>
+    <Router basename="/saartjes-library">
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
