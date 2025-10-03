@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-import circlePlus from './assets/icons/circle-plus.svg';
-import libraryIcon from './assets/icons/library.svg';
-import heartIcon from './assets/icons/heart.svg';
+import CirclePlus from "./assets/icons/circle-plus.svg?react";
+import LibraryIcon from "./assets/icons/library.svg?react";
+import HeartIcon from "./assets/icons/heart.svg?react";
 
 function Header() {
   const [isPopupVisible, setIsPopupVisible] = useState(false);
@@ -25,9 +25,9 @@ function Header() {
         <div className="library-header-add-button">
           <button onClick={handleButtonClick}>
             {/* Rotate image when popup is visible */}
-            <img
-              src={circlePlus}
+            <CirclePlus
               alt="Add"
+              style={{ width: "36px", height: "36px" }}
               className={isPopupVisible ? "rotate" : ""}
             />
           </button>
@@ -40,22 +40,22 @@ function Header() {
           <div className="popup-content">
             <div className="popup-buttons">
               <Link to="/add-book-library">
-			        <button className="popup-button" onClick={closePopup}>                  
+                <button className="popup-button" onClick={closePopup}>
                   Add to Library
-				          <img
-                    src={libraryIcon}
+                  <LibraryIcon
                     alt="Library Icon"
                     className="popup-button-icon"
+                    style={{ width: "24px", height: "24px" }}
                   />
                 </button>
               </Link>
               <Link to="/add-book-wishlist">
-			        <button className="popup-button" onClick={closePopup}>
+                <button className="popup-button" onClick={closePopup}>
                   Add to Wishlist
-				          <img
-                    src={heartIcon}
+                  <HeartIcon
                     alt="Library Icon"
                     className="popup-button-icon"
+                    style={{ width: "24px", height: "24px" }}
                   />
                 </button>
               </Link>

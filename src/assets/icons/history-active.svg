@@ -1,3 +1,3 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="36" height="37" viewBox="0 0 36 37">
-  <text id="Clock-rotate-left" transform="translate(18 32)" font-size="36" font-family="FontAwesome6Pro-Solid, 'Font Awesome \36  Pro'"><tspan x="-18" y="0">Clock-rotate-left</tspan></text>
+<svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M13 0C17.2656 0 21.2031 2.29688 23.3594 6C25.5156 9.75 25.5156 14.2969 23.3594 18C21.2031 21.75 17.2656 24 13 24C8.6875 24 4.75 21.75 2.59375 18C0.4375 14.2969 0.4375 9.75 2.59375 6C4.75 2.29688 8.6875 0 13 0ZM11.875 5.625V12C11.875 12.375 12.0625 12.75 12.3438 12.9375L16.8438 15.9375C17.3594 16.3125 18.0625 16.1719 18.4375 15.6562C18.7656 15.1406 18.625 14.4375 18.1094 14.0625L14.125 11.4375V5.625C14.125 5.01562 13.6094 4.5 13 4.5C12.3438 4.5 11.875 5.01562 11.875 5.625Z" fill="black"/>
 </svg>
