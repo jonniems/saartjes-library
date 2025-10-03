@@ -1,9 +1,9 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Home from "./pages/Home.jsx";
-import Library from "./pages/Library.jsx";
-import Wishlist from "./pages/Wishlist.jsx";
-import Reading from "./pages/Reading.jsx";
-import History from "./pages/History.jsx";
+import Home from "./pages/home.jsx";
+import Library from "./pages/library.jsx";
+import Wishlist from "./pages/wishlist.jsx";
+import Reading from "./pages/reading.jsx";
+import History from "./pages/history.jsx";
 import Header from "./components/header.jsx";
 import Navigation from "./components/navigation.jsx";
 import LibraryBookDetails from "./pages/librarybookdetails.jsx";
