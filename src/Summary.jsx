@@ -125,7 +125,7 @@ function Library() {
               <div className="library-book-container-more">
                 <Link to={`/book-details/${book.id}`}>
                   <span>see more</span>
-                  <img src={moreIcon} alt="More" />
+                  <img src={moreIcon} alt="More" style={{ width: "12px", height: "12px" }} />
                 </Link>
               </div>
             </div>

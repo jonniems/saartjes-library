@@ -108,9 +108,19 @@ function Library() {
           </select>
           <button onClick={() => handleSort(sortField)} className="sort-button">
             {sortOrder === "asc" ? (
-              <img src={azDownIcon} alt="Ascending" className="sort-icon" />
+              <img
+                src={azDownIcon}
+                alt="Ascending"
+                className="sort-icon"
+                style={{ width: "18px", height: "18px" }}
+              />
             ) : (
-              <img src={zaDownIcon} alt="Descending" className="sort-icon" />
+              <img
+                src={zaDownIcon}
+                alt="Descending"
+                className="sort-icon"
+                style={{ width: "18px", height: "18px" }}
+              />
             )}
           </button>
         </div>
@@ -132,6 +142,7 @@ function Library() {
                   src={crowneIcon}
                   alt="Preservation Book"
                   className="crowne-icon"
+                  style={{ width: "16px", height: "16px" }}
                 />
               )}
               {item.title}
@@ -142,7 +153,11 @@ function Library() {
                 {/* Link naar de specifieke boekpagina */}
                 <Link to={`/book-details/${item.id}`}>
                   <span>see more</span>
-                  <img src={moreIcon} alt="More" />
+                  <img
+                    src={moreIcon}
+                    alt="More"
+                    style={{ width: "12px", height: "12px" }}
+                  />
                 </Link>
               </div>
             </div>

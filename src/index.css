@@ -206,6 +206,7 @@ section {
 
 .library-book-container-more img, .library-list-author-more img {
   padding: 3px 0 0 5px;
+  margin-bottom: -3px;
 }
 
 .library-list {
