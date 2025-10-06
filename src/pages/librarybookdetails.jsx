@@ -5,25 +5,33 @@ import supabase from "../utils/supabase";
 import CloseIcon from "../assets/icons/close.svg?react";
 
 const LibraryBookDetails = () => {
-  const { id } = useParams(); // Get book ID from URL
+  const { id } = useParams();
   const [book, setBook] = useState(null);
-  const [showPopup, setShowPopup] = useState(false); // State to control popup visibility
-  const [rating, setRating] = useState(1); // Default rating is 1
-  const [readingComplete, setReadingComplete] = useState(true); // Default: finished the book
-  const [preservationBook, setPreservationBook] = useState(false); // Default: unchecked
-  const navigate = useNavigate(); // Navigate after actions like updating or deleting the book
+  const [showPopup, setShowPopup] = useState(false); // Stop Reading popup
+  const [showStartReadingPopup, setShowStartReadingPopup] = useState(false); // NIEUW: Start Reading popup
+  const [rating, setRating] = useState(1);
+  const [readingComplete, setReadingComplete] = useState(true);
+  const [preservationBook, setPreservationBook] = useState(false);
+  const navigate = useNavigate();
   const [showRemoveConfirm, setShowRemoveConfirm] = useState(false);
 
+  // NIEUWE STATE VOOR START READING MODAL
+  const [startDateOption, setStartDateOption] = useState("today"); // 'today' of 'choose'
+  const [selectedStartDate, setSelectedStartDate] = useState(""); // Voor de datumpicker
+
   useEffect(() => {
+    // ... (Bestande logica voor het ophalen van boekdetails)
     const fetchLibraryBookDetails = async () => {
       const { data, error } = await supabase
         .from("library")
         .select()
         .eq("id", id)
-        .single(); // Fetch the book with the specific ID
+        .single();
 
       if (data) {
         setBook(data);
+        // Initialiseer selectedStartDate met vandaag, voor de modal
+        setSelectedStartDate(new Date().toISOString().substring(0, 10)); 
       } else {
         console.error("Error fetching book:", error);
       }
@@ -34,7 +42,8 @@ const LibraryBookDetails = () => {
 
   // Hide bottom navigation when any modal is open
   useEffect(() => {
-    const anyModalOpen = showPopup || showRemoveConfirm;
+    // AANPASSING: Voeg de nieuwe modal state toe
+    const anyModalOpen = showPopup || showRemoveConfirm || showStartReadingPopup;
     if (anyModalOpen) {
       document.body.classList.add("overlay-open");
     } else {
@@ -43,9 +52,10 @@ const LibraryBookDetails = () => {
     return () => {
       document.body.classList.remove("overlay-open");
     };
-  }, [showPopup, showRemoveConfirm]);
+  }, [showPopup, showRemoveConfirm, showStartReadingPopup]);
 
   const renderRating = (rating) => {
+    // ... (Bestaande renderRating functie)
     const totalCircles = 5;
     const filledCircles = rating
       ? Math.min(Math.max(rating, 1), totalCircles)
@@ -64,15 +74,26 @@ const LibraryBookDetails = () => {
     return circles;
   };
 
-  // Button 1: Start Reading
-  const handleStartReading = async () => {
-    const today = new Date().toISOString();
+  // Button 1: Start Reading (opent de popup)
+  const handleStartReading = () => {
+    setStartDateOption("today"); // Reset naar "Today" bij openen
+    setSelectedStartDate(new Date().toISOString().substring(0, 10)); // Reset de datum
+    setShowStartReadingPopup(true);
+  };
+
+  // NIEUW: Bevestig en update de startdatum vanuit de modal
+  const confirmStartReading = async () => {
+    // Bepaal de datum op basis van de gekozen optie
+    const startDate =
+      startDateOption === "today"
+        ? new Date().toISOString()
+        : new Date(selectedStartDate).toISOString();
 
     const { error } = await supabase
       .from("library")
-      .update({ start_reading: today })
+      .update({ start_reading: startDate })
       .eq("id", id)
-      .select(); // Keep .select() for consistency with handleRemoveFromLibrary
+      .select();
 
     if (error) {
       console.error("Error updating start_reading:", error.message);
@@ -87,10 +108,17 @@ const LibraryBookDetails = () => {
     if (fetchError) {
       console.error("Error fetching updated book data:", fetchError.message);
     } else {
-      setBook(updatedBook); // Update the state with the updated data
+      setBook(updatedBook); // Update de state met de bijgewerkte data
+      setShowStartReadingPopup(false); // Sluit de popup
     }
   };
 
+  // NIEUW: Functie om de start reading modal te annuleren/sluiten
+  const cancelStartReading = () => {
+    setShowStartReadingPopup(false);
+  };
+
+  // ... (Bestaande handleRemoveFromLibrary, confirmRemoveFromLibrary, etc.)
   // Button 2: Remove from Library
   const handleRemoveFromLibrary = () => {
     setShowRemoveConfirm(true);
@@ -147,7 +175,7 @@ const LibraryBookDetails = () => {
         preservation_book: preservationBook,
       })
       .eq("id", id)
-      .select(); // Adding select() to get the updated data
+      .select(); 
 
     if (error) {
       console.error("Error updating book details:", error.message);
@@ -161,14 +189,15 @@ const LibraryBookDetails = () => {
       if (fetchError) {
         console.error("Error fetching updated book data:", fetchError.message);
       } else {
-        setBook(updatedBook); // Update the state with the updated data
-        setShowPopup(false); // Close the popup after submission
+        setBook(updatedBook); 
+        setShowPopup(false); 
       }
     }
   };
 
   // Wishlist button handlers
   const handleCheckOnBol = () => {
+    // ... (Bestaande Bol.com logica)
     const formattedTitle = book.title.replace(/\s+/g, "+");
     const formattedAuthor = book.author.replace(/\s+/g, "+");
     const searchQuery = `${formattedTitle}+${formattedAuthor}`;
@@ -177,6 +206,7 @@ const LibraryBookDetails = () => {
   };
 
   const handleAddToLibrary = () => {
+    // ... (Bestaande Add to Library logica)
     const searchParams = new URLSearchParams({
       title: book.title,
       author: book.author,
@@ -185,6 +215,7 @@ const LibraryBookDetails = () => {
   };
 
   const handleRemoveFromWishlist = async () => {
+    // ... (Bestaande Remove from Wishlist logica)
     const today = new Date().toISOString();
 
     const { error } = await supabase
@@ -213,6 +244,7 @@ const LibraryBookDetails = () => {
 
   return (
     <div>
+      {/* ... (Bestaande weergave van boekdetails) */}
       {book ? (
         <div className="book-details-container">
           <h1>{book.title}</h1>
@@ -258,6 +290,7 @@ const LibraryBookDetails = () => {
           )}
 
           {/* Show Start Reading button only if no start_reading date is set and not on wishlist */}
+          {/* AANGEPAST: Roept nu handleStartReading aan om de modal te openen */}
           {!book.start_reading && !book.on_wishlist && (
             <button className="main-button" onClick={handleStartReading}>
               Start Reading
@@ -282,11 +315,90 @@ const LibraryBookDetails = () => {
         <p>Loading book details...</p>
       )}
 
-      {/* Popup Modal */}
-      {showPopup && (
+      {/* NIEUWE: Start Reading Modal */}
+      {showStartReadingPopup && (
         <div className="stop-reading-popup">
           <div className="stop-reading-popup-content">
-            {/* Close icon */}
+            <CloseIcon
+              alt="Close"
+              className="stop-reading-popup-close-icon"
+              width="24px"
+              height="24px"
+              onClick={cancelStartReading} // Sluit zonder wijzigingen
+            />
+            <div className="stop-reading-popup-details">
+              <h1>{book.title}</h1>
+              <h3>{book.author}</h3>
+              <hr />
+              <div className="start-reading-question">
+                <label><h3><i>When did you start reading {book.title}?</i></h3></label>
+                
+                <div className="add-book-options">
+                  <label>
+                    <input
+                      type="radio"
+                      name="startDateOption"
+                      value="today"
+                      checked={startDateOption === "today"}
+                      onChange={() => setStartDateOption("today")}
+                    />
+                    <span></span>
+                    Today
+                  </label>
+                  
+                  <label>
+                    <input
+                      type="radio"
+                      name="startDateOption"
+                      value="choose"
+                      checked={startDateOption === "choose"}
+                      onChange={() => setStartDateOption("choose")}
+                    />
+                    <span></span>
+                    Choose a date
+                  </label>
+                </div>
+
+                {startDateOption === "choose" && (
+                  <div className="add-book-date">
+                    <input
+                      type="date"
+                      value={selectedStartDate}
+                      onChange={(e) => setSelectedStartDate(e.target.value)}
+                      max={new Date().toISOString().substring(0, 10)} // Max datum is vandaag
+                    />
+                  </div>
+                )}
+              </div>
+              
+              <div className="confirmation-buttons">
+                <button
+                  type="button"
+                  className="confirm-button"
+                  onClick={confirmStartReading}
+                  // Schakel de knop uit als 'choose a date' is gekozen maar geen datum is geselecteerd
+                  disabled={startDateOption === "choose" && !selectedStartDate}
+                >
+                  Start reading
+                </button>
+                <button
+                  type="button"
+                  className="cancel-button"
+                  onClick={cancelStartReading} // Sluit zonder wijzigingen
+                >
+                  Not reading it now
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* OUDE: Stop Reading Modal (showPopup) */}
+      {showPopup && (
+        <div className="stop-reading-popup">
+          {/* ... (Bestaande Stop Reading modal code) */}
+          <div className="stop-reading-popup-content">
             <CloseIcon
               alt="Close"
               className="stop-reading-popup-close-icon"
@@ -379,20 +491,20 @@ const LibraryBookDetails = () => {
             />
             <div className="stop-reading-popup-details">
               <h3>
-                Are you sure you want to remove <i>{book.title}</i> from your
-                library?
+              <i>Are you sure you want to remove {book.title} from your
+                library?</i>
               </h3>
-              <div className="reading-status-buttons">
+              <div className="confirmation-buttons">
                 <button
                   type="button"
-                  className="remove-button"
+                  className="confirm-button"
                   onClick={confirmRemoveFromLibrary}
                 >
                   Yes, I&apos;m sure
                 </button>
                 <button
                   type="button"
-                  className="main-button"
+                  className="cancel-button"
                   onClick={cancelRemoveFromLibrary}
                 >
                   No, I&apos;ll keep it for now

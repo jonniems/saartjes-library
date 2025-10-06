@@ -18,6 +18,10 @@ body, html {
   background-color: var(--library-yellow);
 }
 
+body {
+  padding-bottom: 90px;
+}
+
 h1 {
   font-size: 24px;
   font-weight: 800;
@@ -91,12 +95,15 @@ header {
 
 menu {
   display: flex;
-  position: absolute;
+  position: fixed;
+  left: 0;
+  right: 0;
   bottom: 0;
   padding: 0;
   margin: 0;
   width: 100%;
   background-color: var(--library-yellow);
+  z-index: 1000;
 }
 
 /* Hide bottom navigation when a modal overlay is open */
@@ -646,23 +653,33 @@ input[type="date"] {
   color: var(--library-yellow);
 }
 
-.remove-button, .main-button {
-  padding: 8px 10px;
+.confirmation-buttons {
+  display: flex;
+  flex-direction: column;
+  margin-top: 48px;
+  gap: 24px;
+}
+
+.cancel-button, .confirm-button {
+  padding: 12px;
   border: 1px solid var(--library-black);
   border-radius: 0;
   cursor: pointer;
   background-color: var(--library-yellow);
   color: var(--library-black);
-  font-size: 16px;
+  font-size: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
 }
 
-.remove-button {
+.confirm-button {
   border: 1px solid var(--library-red);
   background-color: var(--library-red);
   color: var(--library-yellow);
 }
 
-.main-button {
+.cancel-button {
   border: 1px solid var(--library-black);
   background-color: var(--library-yellow);
   color: var(--library-black);
@@ -712,4 +729,10 @@ input[type="date"] {
   font-size: 24px;
   width: -webkit-fill-available;
   margin-top: 36px;
+}
+
+.start-reading-question {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
 }
