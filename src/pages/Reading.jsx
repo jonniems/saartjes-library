@@ -2,7 +2,7 @@ import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import supabase from "../utils/supabase.js";
 import { Link } from "react-router-dom";
-import moreIcon from "../assets/icons/more.svg";
+import MoreIcon from "../assets/icons/more.svg?react";
 import SearchAndSort from "../components/SearchAndSort.jsx";
 
 function Reading() {
@@ -84,7 +84,7 @@ function Reading() {
         onSortToggle={handleSort}
         sortOptions={[
           { value: "title", label: "Title" },
-          { value: "author", label: "Author" }
+          { value: "author", label: "Author" },
         ]}
       />
       {filteredReading.length > 0 ? (
@@ -98,7 +98,10 @@ function Reading() {
                 {/* Link naar de specifieke boekpagina */}
                 <Link to={`/book-details/${item.id}`}>
                   <span>see more</span>
-                  <img src={moreIcon} alt="More" />
+                  <MoreIcon
+                    alt="More"
+                    style={{ width: "12px", height: "12px" }}
+                  />
                 </Link>
               </div>
             </div>

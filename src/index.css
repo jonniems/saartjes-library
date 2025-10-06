@@ -99,6 +99,11 @@ menu {
   background-color: var(--library-yellow);
 }
 
+/* Hide bottom navigation when a modal overlay is open */
+body.overlay-open menu {
+  display: none;
+}
+
 .library-menu {
   display: flex;
   border-top: 1px solid var(--library-black);
@@ -204,7 +209,26 @@ section {
   text-decoration: underline;
 }
 
-.library-book-container-more img, .library-list-author-more img {
+.library-book-container-more svg, .library-list-author-more svg {
+  padding: 3px 0 0 5px;
+  margin-bottom: -3px;
+}
+
+.go-back {
+  font-style: italic;
+  text-decoration: none;
+  display: flex;
+}
+
+.go-back a {
+  color: var(--library-black);
+}
+
+.go-back span {
+  text-decoration: underline;
+}
+
+.go-back svg {
   padding: 3px 0 0 5px;
   margin-bottom: -3px;
 }
@@ -620,6 +644,28 @@ input[type="date"] {
   border: 1px solid var(--library-red);
   background-color: var(--library-red);
   color: var(--library-yellow);
+}
+
+.remove-button, .main-button {
+  padding: 8px 10px;
+  border: 1px solid var(--library-black);
+  border-radius: 0;
+  cursor: pointer;
+  background-color: var(--library-yellow);
+  color: var(--library-black);
+  font-size: 16px;
+}
+
+.remove-button {
+  border: 1px solid var(--library-red);
+  background-color: var(--library-red);
+  color: var(--library-yellow);
+}
+
+.main-button {
+  border: 1px solid var(--library-black);
+  background-color: var(--library-yellow);
+  color: var(--library-black);
 }
 
 .reading-status-rate {

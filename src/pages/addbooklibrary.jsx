@@ -1,6 +1,8 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom"; // to navigate to another page after adding a book
-import supabase from '../utils/supabase'
+import { useNavigate } from "react-router-dom";
+import supabase from "../utils/supabase";
+import { Link } from "react-router-dom";
+import BackIcon from "../assets/icons/back.svg?react";
 
 const AddBookLibrary = () => {
   const [title, setTitle] = useState("");
@@ -12,12 +14,19 @@ const AddBookLibrary = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate(); // to redirect after success
 
+  const handleGoBack = () => {
+    navigate(-1);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
 
-    const inLibraryDate = inLibraryFrom === "today" ? new Date().toISOString().split("T")[0] : manualDate;
-    
+    const inLibraryDate =
+      inLibraryFrom === "today"
+        ? new Date().toISOString().split("T")[0]
+        : manualDate;
+
     // Add the new book to the Supabase database
     const { error } = await supabase.from("library").insert([
       {
@@ -35,18 +44,25 @@ const AddBookLibrary = () => {
       setLoading(false);
       return;
     }
-  
+
     // Create the success message
     const successMessage = `${title} by ${author} was successfully added to your library`;
-  
+
     // After successfully adding, navigate to the library page and pass the success message
     navigate("/library", { state: { successMessage } });
-  
+
     setLoading(false); // End loading state
   };
 
   return (
     <div className="add-book-container">
+      <div className="go-back">
+        {/* Link naar de specifieke boekpagina */}
+        <Link onClick={handleGoBack}>
+          <BackIcon alt="Back" style={{ width: "12px", height: "12px" }} />
+          <span>go back</span>
+        </Link>
+      </div>
       <form onSubmit={handleSubmit}>
         <div className="add-book">
           <input
@@ -95,7 +111,7 @@ const AddBookLibrary = () => {
             </label>
           </div>
         </div>
-      
+
         <div className="add-book">
           <div className="add-book-options">
             <label>
@@ -112,7 +128,9 @@ const AddBookLibrary = () => {
         </div>
 
         <div className="add-book">
-          <label className="add-book-date-label">When did the book enter the library?</label>
+          <label className="add-book-date-label">
+            When did the book enter the library?
+          </label>
           <div className="add-book-options">
             <label>
               <input
