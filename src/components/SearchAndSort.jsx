@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
-import azDownIcon from "../assets/icons/az-down.svg";
-import zaDownIcon from "../assets/icons/za-down.svg";
-import searchIcon from "../assets/icons/search.svg";
+import AzDownIcon from "../assets/icons/az-down.svg?react";
+import ZaDownIcon from "../assets/icons/za-down.svg?react";
+import SearchIcon from "../assets/icons/search.svg?react";
 
 function SearchAndSort({ 
   searchTerm, 
@@ -19,7 +19,7 @@ function SearchAndSort({
   return (
     <div className="search-filter-container">
       <div className="search-container">
-        <img src={searchIcon} alt="" className="search-icon" />
+        <SearchIcon alt="" className="search-icon" />
         <input
           type="text"
           className="search-input"
@@ -44,9 +44,9 @@ function SearchAndSort({
         </select>
         <button onClick={() => onSortToggle(sortField)} className="sort-button">
           {sortOrder === "asc" ? (
-            <img src={azDownIcon} alt="Ascending" className="sort-icon" />
+            <AzDownIcon alt="Ascending" className="sort-icon" width="16px" height="16px" />
           ) : (
-            <img src={zaDownIcon} alt="Descending" className="sort-icon" />
+            <ZaDownIcon alt="Descending" className="sort-icon" width="16px" height="16px" />
           )}
         </button>
       </div>

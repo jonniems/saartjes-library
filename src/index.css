@@ -1,18 +1,19 @@
-@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap");
 
 :root {
-  --library-yellow: #FFFBEF;
+  --library-yellow: #fffbef;
   --library-black: #000000;
   --library-gray: #999999;
-  --library-red: #830C0C;
-  --library-green: #175E0A;
+  --library-red: #830c0c;
+  --library-green: #175e0a;
 }
 
 * {
   font-family: "EB Garamond", serif;
 }
 
-body, html {
+body,
+html {
   padding: 0;
   margin: 0;
   background-color: var(--library-yellow);
@@ -128,10 +129,8 @@ body.overlay-open menu {
 .library-menu-item {
   display: flex;
   flex-direction: column;
-}
-
-.library-menu-item img {
-  height: 37px;
+  gap: 4px;
+  align-items: center;
 }
 
 section {
@@ -139,7 +138,7 @@ section {
 }
 
 .library-book-container {
-  padding: 20px 20px 0  ;
+  padding: 20px 20px 0;
 }
 
 .library-book-container-title {
@@ -169,7 +168,8 @@ section {
   line-height: 1.5rem;
 }
 
-.library-book-block-title, .library-list-title {
+.library-book-block-title,
+.library-list-title {
   font-weight: 800;
 }
 
@@ -177,7 +177,8 @@ section {
   font-weight: 400;
 }
 
-.library-book-block-genre, .library-list-currently {
+.library-book-block-genre,
+.library-list-currently {
   font-size: 12px;
   color: var(--library-red);
 }
@@ -201,41 +202,26 @@ section {
   justify-content: space-between;
 }
 
-.library-book-container-more, .library-list-more {
+.library-book-container-more,
+.library-list-more {
   font-style: italic;
   text-decoration: none;
   display: flex;
   justify-content: right;
 }
 
-.library-book-container-more a, .library-list-author-more a {
+.library-book-container-more a,
+.library-list-author-more a {
   color: var(--library-black);
 }
 
-.library-book-container-more span, .library-list-author-more span {
+.library-book-container-more span,
+.library-list-author-more span {
   text-decoration: underline;
 }
 
-.library-book-container-more svg, .library-list-author-more svg {
-  padding: 3px 0 0 5px;
-  margin-bottom: -3px;
-}
-
-.go-back {
-  font-style: italic;
-  text-decoration: none;
-  display: flex;
-}
-
-.go-back a {
-  color: var(--library-black);
-}
-
-.go-back span {
-  text-decoration: underline;
-}
-
-.go-back svg {
+.library-book-container-more svg,
+.library-list-author-more svg {
   padding: 3px 0 0 5px;
   margin-bottom: -3px;
 }
@@ -382,7 +368,7 @@ section {
   width: 100%;
   display: flex;
   align-items: center;
-  justify-content: center; 
+  justify-content: center;
   gap: 8px;
 }
 
@@ -448,7 +434,7 @@ section {
   width: 100%;
   display: flex;
   align-items: center;
-  justify-content: center; 
+  justify-content: center;
   gap: 8px;
 }
 
@@ -481,7 +467,7 @@ input[type="radio"]:checked + span {
 }
 
 input[type="radio"]:checked + span::after {
-  content: '';
+  content: "";
   position: absolute;
   top: 3px;
   left: 3px;
@@ -514,7 +500,7 @@ input[type="checkbox"]:checked + span {
 }
 
 input[type="checkbox"]:checked + span::after {
-  content: '✔';
+  content: "✔";
   position: absolute;
   top: 0;
   left: 3px;
@@ -542,7 +528,7 @@ input[type="date"] {
   font-size: 18px;
   padding: 8px;
   background-color: var(--library-yellow);
-  border: 1px solid var(--library-gray)
+  border: 1px solid var(--library-gray);
 }
 
 .filled-circle {
@@ -570,7 +556,7 @@ input[type="date"] {
 }
 
 .book-details-genre {
-  color: var(--library-red)
+  color: var(--library-red);
 }
 
 .book-details-container button {
@@ -660,7 +646,8 @@ input[type="date"] {
   gap: 24px;
 }
 
-.cancel-button, .confirm-button {
+.cancel-button,
+.confirm-button {
   padding: 12px;
   border: 1px solid var(--library-black);
   border-radius: 0;
@@ -735,4 +722,20 @@ input[type="date"] {
   display: flex;
   flex-direction: column;
   gap: 24px;
+}
+
+.go-back {
+  font-style: italic;
+  display: flex;
+  margin-bottom: 12px;
+}
+
+.go-back a {
+  color: var(--library-gray);
+  text-decoration: none;
+}
+
+.go-back svg {
+  padding: 3px 5px 0 0;
+  margin-bottom: -3px;
 }

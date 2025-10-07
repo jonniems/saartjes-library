@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import supabase from '../utils/supabase';
+import { useNavigate, Link } from "react-router-dom";
+import supabase from "../utils/supabase";
+import BackIcon from "../assets/icons/back.svg?react";
 
 const AddBookWishlist = () => {
   const [title, setTitle] = useState("");
@@ -8,6 +9,10 @@ const AddBookWishlist = () => {
   const [isFiction, setIsFiction] = useState(false); // Default to Non-Fiction
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate(); // to redirect after success
+
+  const handleGoBack = () => {
+    navigate(-1);
+  };
 
   const today = new Date().toISOString().split("T")[0];
 
@@ -43,6 +48,13 @@ const AddBookWishlist = () => {
 
   return (
     <div className="add-book-container">
+      <div className="go-back">
+        {/* Link naar de specifieke boekpagina */}
+        <Link onClick={handleGoBack}>
+          <BackIcon alt="Back" style={{ width: "12px", height: "12px" }} />
+          <span>go back</span>
+        </Link>
+      </div>
       <form onSubmit={handleSubmit}>
         <div className="add-book">
           <input

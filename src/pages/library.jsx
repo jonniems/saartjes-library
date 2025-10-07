@@ -2,7 +2,7 @@ import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import supabase from "../utils/supabase.js";
 import { Link } from "react-router-dom";
-import crowneIcon from "../assets/icons/crowne.svg";
+import CrowneIcon from "../assets/icons/crowne.svg?react";
 import MoreIcon from "../assets/icons/more.svg?react";
 import SearchAndSort from "../components/SearchAndSort.jsx";
 
@@ -107,8 +107,7 @@ function Library() {
             </div>
             <div className="library-list-title">
               {item.preservation_book && (
-                <img
-                  src={crowneIcon}
+                <CrowneIcon
                   alt="Preservation Book"
                   className="crowne-icon"
                   style={{ width: "16px", height: "16px" }}

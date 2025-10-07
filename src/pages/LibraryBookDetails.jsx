@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import supabase from "../utils/supabase";
-
+import BackIcon from "../assets/icons/back.svg?react";
 import CloseIcon from "../assets/icons/close.svg?react";
 
 const LibraryBookDetails = () => {
@@ -14,6 +14,10 @@ const LibraryBookDetails = () => {
   const [preservationBook, setPreservationBook] = useState(false);
   const navigate = useNavigate();
   const [showRemoveConfirm, setShowRemoveConfirm] = useState(false);
+
+  const handleGoBack = () => {
+    navigate(-1);
+  };
 
   // NIEUWE STATE VOOR START READING MODAL
   const [startDateOption, setStartDateOption] = useState("today"); // 'today' of 'choose'
@@ -31,7 +35,7 @@ const LibraryBookDetails = () => {
       if (data) {
         setBook(data);
         // Initialiseer selectedStartDate met vandaag, voor de modal
-        setSelectedStartDate(new Date().toISOString().substring(0, 10)); 
+        setSelectedStartDate(new Date().toISOString().substring(0, 10));
       } else {
         console.error("Error fetching book:", error);
       }
@@ -43,7 +47,8 @@ const LibraryBookDetails = () => {
   // Hide bottom navigation when any modal is open
   useEffect(() => {
     // AANPASSING: Voeg de nieuwe modal state toe
-    const anyModalOpen = showPopup || showRemoveConfirm || showStartReadingPopup;
+    const anyModalOpen =
+      showPopup || showRemoveConfirm || showStartReadingPopup;
     if (anyModalOpen) {
       document.body.classList.add("overlay-open");
     } else {
@@ -175,7 +180,7 @@ const LibraryBookDetails = () => {
         preservation_book: preservationBook,
       })
       .eq("id", id)
-      .select(); 
+      .select();
 
     if (error) {
       console.error("Error updating book details:", error.message);
@@ -189,8 +194,8 @@ const LibraryBookDetails = () => {
       if (fetchError) {
         console.error("Error fetching updated book data:", fetchError.message);
       } else {
-        setBook(updatedBook); 
-        setShowPopup(false); 
+        setBook(updatedBook);
+        setShowPopup(false);
       }
     }
   };
@@ -247,6 +252,13 @@ const LibraryBookDetails = () => {
       {/* ... (Bestaande weergave van boekdetails) */}
       {book ? (
         <div className="book-details-container">
+          <div className="go-back">
+            {/* Link naar de specifieke boekpagina */}
+            <Link onClick={handleGoBack}>
+              <BackIcon alt="Back" style={{ width: "12px", height: "12px" }} />
+              <span>go back</span>
+            </Link>
+          </div>
           <h1>{book.title}</h1>
           <h3>{book.author}</h3>
           <div className="book-details-genre">
@@ -331,8 +343,12 @@ const LibraryBookDetails = () => {
               <h3>{book.author}</h3>
               <hr />
               <div className="start-reading-question">
-                <label><h3><i>When did you start reading {book.title}?</i></h3></label>
-                
+                <label>
+                  <h3>
+                    <i>When did you start reading {book.title}?</i>
+                  </h3>
+                </label>
+
                 <div className="add-book-options">
                   <label>
                     <input
@@ -345,7 +361,7 @@ const LibraryBookDetails = () => {
                     <span></span>
                     Today
                   </label>
-                  
+
                   <label>
                     <input
                       type="radio"
@@ -370,7 +386,7 @@ const LibraryBookDetails = () => {
                   </div>
                 )}
               </div>
-              
+
               <div className="confirmation-buttons">
                 <button
                   type="button"
@@ -491,8 +507,10 @@ const LibraryBookDetails = () => {
             />
             <div className="stop-reading-popup-details">
               <h3>
-              <i>Are you sure you want to remove {book.title} from your
-                library?</i>
+                <i>
+                  Are you sure you want to remove {book.title} from your
+                  library?
+                </i>
               </h3>
               <div className="confirmation-buttons">
                 <button

@@ -1,15 +1,15 @@
 import { Link, useLocation } from 'react-router-dom';
 // Iconen voor actieve en niet-actieve status
-import homeIcon from '../assets/icons/home.svg';
-import homeActiveIcon from '../assets/icons/home-active.svg';
-import libraryIcon from '../assets/icons/library.svg';
-import libraryActiveIcon from '../assets/icons/library-active.svg';
-import heartIcon from '../assets/icons/heart.svg';
-import heartActiveIcon from '../assets/icons/heart-active.svg';
-import bookIcon from '../assets/icons/book.svg';
-import bookActiveIcon from '../assets/icons/book-active.svg';
-import historyIcon from '../assets/icons/history.svg';
-import historyActiveIcon from '../assets/icons/history-active.svg';
+import HomeIcon from '../assets/icons/home.svg?react';
+import HomeActiveIcon from '../assets/icons/home-active.svg?react';
+import LibraryIcon from '../assets/icons/library.svg?react';
+import LibraryActiveIcon from '../assets/icons/library-active.svg?react';
+import HeartIcon from '../assets/icons/heart.svg?react';
+import HeartActiveIcon from '../assets/icons/heart-active.svg?react';
+import BookIcon from '../assets/icons/book.svg?react';
+import BookActiveIcon from '../assets/icons/book-active.svg?react';
+import HistoryIcon from '../assets/icons/history.svg?react';
+import HistoryActiveIcon from '../assets/icons/history-active.svg?react';
 
 const Navigation = () => {
   const location = useLocation(); // Verkrijg het huidige pad
@@ -22,31 +22,31 @@ const Navigation = () => {
       <div className="library-menu">
         <Link to="/" className="library-menu-link">
           <div className={`library-menu-item ${isActive('/') ? 'active' : ''}`}>
-            <img src={isActive('/') ? homeActiveIcon : homeIcon} alt="Home" />
+            {isActive('/') ? <HomeActiveIcon width="36px" height="36px"/> : <HomeIcon width="36px" height="36px"/>}
             <span>Home</span>
           </div>
         </Link>
         <Link to="/library" className="library-menu-link">
           <div className={`library-menu-item ${isActive('/library') ? 'active' : ''}`}>
-            <img src={isActive('/library') ? libraryActiveIcon : libraryIcon} alt="Library" />
+            {isActive('/library') ? <LibraryActiveIcon width="36px" height="36px"/> : <LibraryIcon width="36px" height="36px"/>}
             <span>Library</span>
           </div>
         </Link>
         <Link to="/wishlist" className="library-menu-link">
           <div className={`library-menu-item ${isActive('/wishlist') ? 'active' : ''}`}>
-            <img src={isActive('/wishlist') ? heartActiveIcon : heartIcon} alt="Wishlist" />
+            {isActive('/wishlist') ? <HeartActiveIcon width="36px" height="36px"/> : <HeartIcon width="36px" height="36px"/>}
             <span>Wishlist</span>
           </div>
         </Link>
         <Link to="/reading" className="library-menu-link">
           <div className={`library-menu-item ${isActive('/reading') ? 'active' : ''}`}>
-            <img src={isActive('/reading') ? bookActiveIcon : bookIcon} alt="Reading" />
+            {isActive('/reading') ? <BookActiveIcon width="36px" height="36px"/> : <BookIcon width="36px" height="36px"/>}
             <span>Reading</span>
           </div>
         </Link>
         <Link to="/history" className="library-menu-link">
           <div className={`library-menu-item ${isActive('/history') ? 'active' : ''}`}>
-            <img src={isActive('/history') ? historyActiveIcon : historyIcon} alt="History" />
+            {isActive('/history') ? <HistoryActiveIcon width="36px" height="36px"/> : <HistoryIcon width="36px" height="36px"/>}
             <span>History</span>
           </div>
         </Link>
