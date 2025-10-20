@@ -1,84 +1,50 @@
 import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
-import supabase from "../utils/supabase.js";
+import { useLibraryData } from "../hooks/useLibraryData.js";
+import { useSortAndFilter } from "../hooks/useSortAndFilter.js";
 import { Link } from "react-router-dom";
 import CrowneIcon from "../assets/icons/crowne.svg?react";
 import MoreIcon from "../assets/icons/more.svg?react";
 import SearchAndSort from "../components/SearchAndSort.jsx";
+import { isBookReadyToRead } from "../utils/libraryUtils.js";
 
 function Library() {
-  const [library, setLibrary] = useState([]);
+  const { library, loading } = useLibraryData();
   const [searchTerm, setSearchTerm] = useState("");
   const [sortField, setSortField] = useState("title");
   const [sortOrder, setSortOrder] = useState("asc");
   const location = useLocation();
 
   const successMessage = location.state?.successMessage;
-
   const [messageVisible, setMessageVisible] = useState(false);
 
-  useEffect(() => {
-    getLibrary();
-  }, []);
-
-  async function getLibrary() {
-    const { data, error } = await supabase
-      .from("library")
-      .select()
-      .eq("in_library", true);
-
-    if (!error) {
-      setLibrary(data);
-    }
-  }
+  const filteredLibrary = useSortAndFilter(
+    library,
+    searchTerm,
+    sortField,
+    sortOrder
+  );
 
   const handleSort = (field) => {
     setSortField(field);
     setSortOrder(sortOrder === "asc" ? "desc" : "asc");
   };
 
-  const sortedLibrary = [...library].sort((a, b) => {
-    const aValue = (a[sortField] || "").toString().toLowerCase();
-    const bValue = (b[sortField] || "").toString().toLowerCase();
-
-    if (sortOrder === "asc") {
-      if (aValue < bValue) return -1;
-      if (aValue > bValue) return 1;
-      return 0;
-    } else {
-      if (aValue > bValue) return -1;
-      if (aValue < bValue) return 1;
-      return 0;
-    }
-  });
-
-  const filteredLibrary = sortedLibrary.filter((item) => {
-    const lowerCaseSearchTerm = searchTerm.toLowerCase();
-    const title = item.title ? item.title.toLowerCase() : "";
-    const author = item.author ? item.author.toLowerCase() : "";
-
-    return (
-      title.includes(lowerCaseSearchTerm) ||
-      author.includes(lowerCaseSearchTerm)
-    );
-  });
-
   useEffect(() => {
     if (successMessage) {
       setMessageVisible(true);
-      // Hide the success message after 5 seconds
       const timer = setTimeout(() => {
         setMessageVisible(false);
       }, 5000);
 
-      // Cleanup the timeout if the component unmounts or the message changes
       return () => clearTimeout(timer);
     }
   }, [successMessage]);
 
+  if (loading) return <p>Loading library...</p>;
+
   return (
     <div className="library-list">
-      {/* Display the success message if available and visible */}
       {messageVisible && successMessage && (
         <div className="success-message">{successMessage}</div>
       )}
@@ -95,42 +61,52 @@ function Library() {
         ]}
       />
       {filteredLibrary.length > 0 ? (
-        filteredLibrary.map((item) => (
-          <div key={item.id} className="library-list-item">
-            <div className="library-list-currently">
-              {item.start_reading &&
-              item.start_reading.split("T")[0] <=
-                new Date().toISOString().split("T")[0] &&
-              !item.end_reading
-                ? "Currently reading"
-                : ""}
-            </div>
-            <div className="library-list-title">
-              {item.preservation_book && (
-                <CrowneIcon
-                  alt="Preservation Book"
-                  className="crowne-icon"
-                  style={{ width: "16px", height: "16px" }}
-                />
-              )}
-              {item.title}
-            </div>
-            <div className="library-list-author-more">
-              <div className="library-list-author">{item.author}</div>
-              <div className="library-list-more">
-                {/* Link naar de specifieke boekpagina */}
-                <Link to={`/book-details/${item.id}`}>
-                  <span>see more</span>
-                  <MoreIcon
-                    alt="More"
-                    style={{ width: "12px", height: "12px" }}
-                  />
-                </Link>
+        filteredLibrary.map((item) => {
+          const readyClass = isBookReadyToRead(item) 
+            ? "" 
+            : "ready-dot--not-ready";
+
+          return (
+            <div key={item.id} className="library-list-item">
+              <div className="library-list-currently">
+                {item.start_reading &&
+                item.start_reading.split("T")[0] <=
+                  new Date().toISOString().split("T")[0] &&
+                !item.end_reading
+                  ? "Currently reading"
+                  : ""}
               </div>
+              <div className="library-list-title-ready">
+                <div className="library-list-title">
+                  {item.preservation_book && (
+                    <CrowneIcon
+                      alt="Preservation Book"
+                      className="crowne-icon"
+                      style={{ width: "16px", height: "16px" }}
+                    />
+                  )}
+                  {item.title}
+                </div>
+                <div className="library-list-ready">
+                  <span className={`ready-dot ${readyClass}`}></span>
+                </div>
+              </div>
+              <div className="library-list-author-more">
+                <div className="library-list-author">{item.author}</div>
+                <div className="library-list-more">
+                  <Link to={`/book-details/${item.id}`}>
+                    <span>see more</span>
+                    <MoreIcon
+                      alt="More"
+                      style={{ width: "12px", height: "12px" }}
+                    />
+                  </Link>
+                </div>
+              </div>
+              <hr />
             </div>
-            <hr />
-          </div>
-        ))
+          );
+        })
       ) : (
         <p>No results found</p>
       )}

@@ -1,15 +1,14 @@
 import { useEffect, useState } from "react";
 import supabase from "./utils/supabase";
 import { Link } from "react-router-dom";
-
-// Door ?react te gebruiken, zijn dit React Componenten (met Hoofdletter)
 import ReadingIcon from "./assets/icons/book-active.svg?react";
 import FinishedIcon from "./assets/icons/history-active.svg?react";
 import LibraryIcon from "./assets/icons/library-active.svg?react";
 import WishlistIcon from "./assets/icons/heart-active.svg?react";
 import MoreIcon from "./assets/icons/more.svg?react";
 import CrowneIcon from "./assets/icons/crowne.svg?react";
-import RandomIcon from "./assets/icons/dice-active.svg?react"; // Reeds geïmporteerd
+import { getRandomPickCriteria } from "./utils/libraryUtils";
+import RandomIcon from "./assets/icons/dice-active.svg?react";
 
 function Summary() {
   const [latestStarted, setLatestStarted] = useState(null);
@@ -25,22 +24,13 @@ function Summary() {
     setIsPicking(true);
     setRandomPick(null);
 
-    const oneYearAgo = new Date();
-    oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
-    const oneYearAgoISO = oneYearAgo.toISOString();
-
-    // Criteria A: (is_gift = TRUE AND in_library = TRUE AND start_reading IS NULL)
-    const criteriaA =
-      "is_gift.eq.true,in_library.eq.true,start_reading.is.null";
-
-    // Criteria B: (in_library_from < 1 jaar geleden AND in_library = TRUE AND start_reading IS NULL)
-    const criteriaB = `in_library_from.lt.${oneYearAgoISO},in_library.eq.true,start_reading.is.null`;
+    const criteriaORString = getRandomPickCriteria();
 
     try {
       const { data, error } = await supabase
         .from("library")
         .select("id, title, author")
-        .or(`and(${criteriaA}),and(${criteriaB})`);
+        .or(criteriaORString);
 
       if (error) throw new Error(error.message);
 
@@ -134,13 +124,12 @@ function Summary() {
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
 
-  // PAS DIT OBJECT AAN: Voeg de RandomIcon component toe voor het type 'random'
   const labelIcons = {
     reading: ReadingIcon,
     finished: FinishedIcon,
     library: LibraryIcon,
     wishlist: WishlistIcon,
-    random: RandomIcon, // <-- TOEGEVOEGD
+    random: RandomIcon,
   };
 
   const renderBook = (book, type, labelText) => {

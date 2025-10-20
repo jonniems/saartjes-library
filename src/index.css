@@ -168,9 +168,27 @@ section {
   line-height: 1.5rem;
 }
 
+.library-list-title-ready {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
 .library-book-block-title,
 .library-list-title {
   font-weight: 800;
+}
+
+.ready-dot {
+  height: 12px;
+  width: 12px;
+  background-color: var(--library-green);
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.ready-dot--not-ready {
+  background-color: var(--library-red);
 }
 
 .library-book-block-author {
