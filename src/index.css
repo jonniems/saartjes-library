@@ -322,6 +322,8 @@ section {
   color: var(--library-red);
   font-weight: 600;
   font-size: 16px;
+  display: flex;
+  align-items: flex-start;
 }
 
 .sort-button {
