@@ -2,11 +2,12 @@ import { useEffect, useState, useCallback } from "react";
 import supabase from "../utils/supabase";
 
 /**
- * @param {string} id
- * @param {function} navigate
- * @returns {object}
+ * Custom Hook voor het ophalen, updaten en beheren van de staat van een enkel boek.
+ *
+ * @param {string} id - De ID van het boek.
+ * @param {function} navigate - De useNavigate hook functie voor navigatie na verwijdering.
+ * @returns {object} Bevat boekdata, status en alle actiehandlers.
  */
-
 export const useBookDetails = (id, navigate) => {
   const [book, setBook] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -45,7 +46,6 @@ export const useBookDetails = (id, navigate) => {
 
     if (fetchError) {
       console.error("Error fetching updated book data:", fetchError.message);
-      // Foutmelding kan hier ook gezet worden, maar we houden de bestaande data
     } else {
       setBook(updatedBook); // Update de state met de bijgewerkte data
     }
@@ -53,8 +53,39 @@ export const useBookDetails = (id, navigate) => {
 
   // --- API HANDLERS ---
 
+  // 5. Bewerking Opslaan (voor EditBookModal)
+  const handleSaveEdit = async (updatedFields) => {
+    // 1. CLEANUP: Converteer alle lege strings naar null voor de database
+    const cleanedFields = Object.fromEntries(
+      Object.entries(updatedFields).map(([key, value]) => {
+        // Als de waarde een lege string is, vervang deze dan door null
+        if (value === "") {
+          return [key, null];
+        }
+        // Behoud de waarde anders
+        return [key, value];
+      })
+    );
+
+    const { error } = await supabase
+      .from("library")
+      .update(cleanedFields) // <-- Gebruik de opgeschoonde data
+      .eq("id", id);
+
+    if (error) {
+      console.error("Error updating book details:", error.message);
+      // Toon de specifieke foutmelding in de console, zodat je weet wat misging
+      console.error("Supabase Error details:", error);
+      return false;
+    }
+
+    await refreshBookState();
+    return true;
+  };
+
   // 1. Start Reading actie
   const confirmStartReading = async (startDate) => {
+    // ... (Bestaande implementatie) ...
     const isoDate = new Date(startDate).toISOString();
 
     const { error } = await supabase
@@ -76,6 +107,7 @@ export const useBookDetails = (id, navigate) => {
     readingComplete,
     preservationBook
   ) => {
+    // ... (Bestaande implementatie) ...
     const today = new Date().toISOString();
 
     const { error } = await supabase
@@ -98,6 +130,7 @@ export const useBookDetails = (id, navigate) => {
 
   // 3. Remove from Library actie
   const confirmRemoveFromLibrary = async () => {
+    // ... (Bestaande implementatie) ...
     const { error } = await supabase
       .from("library")
       .update({ in_library: false })
@@ -108,8 +141,6 @@ export const useBookDetails = (id, navigate) => {
       return false;
     }
 
-    // Navigeer direct weg omdat het boek technisch gezien niet meer in deze lijst thuishoort
-    // We gebruiken de navigate functie die via de hook is doorgegeven
     navigate("/library", {
       state: {
         successMessage: `${book.title} is verwijderd uit je bibliotheek.`,
@@ -119,8 +150,8 @@ export const useBookDetails = (id, navigate) => {
   };
 
   // 4. Wishlist acties
-
   const handleRemoveFromWishlist = async () => {
+    // ... (Bestaande implementatie) ...
     const today = new Date().toISOString();
 
     const { error } = await supabase
@@ -133,7 +164,6 @@ export const useBookDetails = (id, navigate) => {
       return false;
     }
 
-    // Navigeer direct weg na succesvolle update
     navigate("/wishlist", {
       state: {
         successMessage: `${book.title} is van je verlanglijst verwijderd.`,
@@ -143,7 +173,7 @@ export const useBookDetails = (id, navigate) => {
   };
 
   const handleAddToLibrary = (book) => {
-    // Navigatie naar de toevoegpagina. De logica blijft hier.
+    // ... (Bestaande implementatie) ...
     const searchParams = new URLSearchParams({
       title: book.title,
       author: book.author,
@@ -152,7 +182,7 @@ export const useBookDetails = (id, navigate) => {
   };
 
   const handleCheckOnBol = (book) => {
-    // Externe link logica blijft hier.
+    // ... (Bestaande implementatie) ...
     const formattedTitle = book.title.replace(/\s+/g, "+");
     const formattedAuthor = book.author.replace(/\s+/g, "+");
     const searchQuery = `${formattedTitle}+${formattedAuthor}`;
@@ -171,5 +201,6 @@ export const useBookDetails = (id, navigate) => {
     handleAddToLibrary,
     handleCheckOnBol,
     refreshBookState,
+    handleSaveEdit, // <-- GEWIJZIGD: Naam van updateBook naar handleSaveEdit
   };
 };

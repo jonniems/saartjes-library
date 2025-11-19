@@ -5,7 +5,7 @@
   --library-black: #000000;
   --library-gray: #999999;
   --library-red: #830c0c;
-  --library-green: #175e0a;
+  --library-green: #  ;
 }
 
 * {
@@ -433,11 +433,15 @@ section {
   margin-bottom: 8px;
 }
 
-.add-book-date-label {
+.add-book-date label {
   font-weight: 600;
   font-size: 18px;
   display: block;
   margin-bottom: 8px;
+}
+
+.add-book-date input {
+  margin-bottom: 16px;
 }
 
 .random-pick-section {
@@ -537,14 +541,19 @@ input[type="checkbox"]:checked + span::after {
   font-size: 18px;
 }
 
+.add-book-dates {
+  margin-top: 16px;
+}
+
 .add-book-date {
   display: flex;
+  flex-direction: column;
   margin: -12px 0 12px;
   justify-content: space-between;
 }
 
 input[type="date"] {
-  width: 100%;
+  /* width: 100%; */
   font-size: 18px;
   padding: 8px;
   background-color: var(--library-yellow);
@@ -726,7 +735,7 @@ input[type="date"] {
   align-items: center;
 }
 
-.reading-status-save {
+.reading-status-save, .reading-status-cancel {
   padding: 12px;
   border: 1px solid var(--library-black);
   border-radius: 0;
@@ -738,19 +747,30 @@ input[type="date"] {
   margin-top: 36px;
 }
 
+.reading-status-cancel {
+  background-color: var(--library-yellow);
+  color: var(--library-black);
+}
+
 .start-reading-question {
   display: flex;
   flex-direction: column;
   gap: 24px;
 }
 
-.go-back {
+.book-details-top-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.go-back, .edit {
   font-style: italic;
   display: flex;
   margin-bottom: 12px;
 }
 
-.go-back a {
+.go-back a, .edit a {
   color: var(--library-gray);
   text-decoration: none;
 }
