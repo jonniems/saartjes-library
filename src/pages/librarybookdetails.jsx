@@ -5,12 +5,14 @@ import StartReadingModal from "../components/StartReadingModal.jsx";
 import StopReadingModal from "../components/StopReadingModal.jsx";
 import RemoveConfirmModal from "../components/RemoveConfirmModal.jsx";
 import EditBookModal from "../components/EditBookModal.jsx";
+import { useVisitorMode } from "../context/VisitorModeContext.jsx";
 
 import BackIcon from "../assets/icons/back.svg?react";
 
 const LibraryBookDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { isFriend } = useVisitorMode();
 
   // Get all data/functions from the hook
   const {
@@ -95,9 +97,11 @@ const LibraryBookDetails = () => {
               <span>go back</span>
             </Link>
           </div>
-          <div className="edit">
-            <Link onClick={() => setShowEditModal(true)}>edit</Link>
-          </div>
+          {!isFriend && (
+            <div className="edit">
+              <Link onClick={() => setShowEditModal(true)}>edit</Link>
+            </div>
+          )}
         </div>
 
         <h1>{book.title}</h1>
@@ -124,7 +128,7 @@ const LibraryBookDetails = () => {
           </div>
         )}
 
-        {book.on_wishlist && (
+        {book.on_wishlist && !isFriend && (
           <div className="wishlist-buttons">
             <button
               className="main-button"
@@ -147,7 +151,7 @@ const LibraryBookDetails = () => {
           </div>
         )}
 
-        {!book.start_reading && !book.on_wishlist && (
+        {!isFriend && !book.start_reading && !book.on_wishlist && (
           <button
             className="main-button"
             onClick={() => setShowStartReadingPopup(true)}
@@ -156,7 +160,7 @@ const LibraryBookDetails = () => {
           </button>
         )}
 
-        {book.start_reading && !book.end_reading && (
+        {!isFriend && book.start_reading && !book.end_reading && (
           <button
             className="main-button"
             onClick={() => setShowStopReadingPopup(true)}
@@ -165,7 +169,7 @@ const LibraryBookDetails = () => {
           </button>
         )}
 
-        {book.in_library && (
+        {!isFriend && book.in_library && (
           <button
             className="remove-button"
             onClick={() => setShowRemoveConfirm(true)}

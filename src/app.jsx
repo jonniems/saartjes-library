@@ -9,8 +9,16 @@ import Navigation from "./components/Navigation.jsx";
 import LibraryBookDetails from "./pages/LibraryBookDetails.jsx";
 import AddBookLibrary from "./pages/AddBookLibrary.jsx";
 import AddBookWishlist from "./pages/AddBookWishlist.jsx";
+import OpenScreen from "./pages/OpenScreen.jsx";
+import { useVisitorMode } from "./context/VisitorModeContext.jsx";
 
 function App() {
+  const { mode } = useVisitorMode();
+
+  if (!mode) {
+    return <OpenScreen />;
+  }
+
   return (
     <Router basename="/">
       <Header />

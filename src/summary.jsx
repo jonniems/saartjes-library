@@ -48,8 +48,8 @@ function Summary() {
         setRandomPick(bookData);
       } else {
         setRandomPick({
-          title: "Geen boek gevonden!",
-          author: "Probeer het later nog eens",
+          title: "No book found!",
+          author: "Try again later",
         });
       }
     } catch (err) {

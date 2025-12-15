@@ -4,8 +4,10 @@ import { Link } from "react-router-dom";
 import CirclePlus from "../assets/icons/circle-plus.svg?react";
 import LibraryIcon from "../assets/icons/library.svg?react";
 import HeartIcon from "../assets/icons/heart.svg?react";
+import { useVisitorMode } from "../context/VisitorModeContext.jsx";
 
 function Header() {
+  const { isFriend } = useVisitorMode();
   const [isPopupVisible, setIsPopupVisible] = useState(false);
 
   // Toggle the popup visibility
@@ -22,20 +24,22 @@ function Header() {
     <header>
       <div className="library-header-container">
         <div className="library-header-title">Saartje&apos;s Library</div>
-        <div className="library-header-add-button">
-          <button onClick={handleButtonClick}>
-            {/* Rotate image when popup is visible */}
-            <CirclePlus
-              alt="Add"
-              style={{ width: "36px", height: "36px" }}
-              className={isPopupVisible ? "rotate" : ""}
-            />
-          </button>
-        </div>
+        {!isFriend && (
+          <div className="library-header-add-button">
+            <button onClick={handleButtonClick}>
+              {/* Rotate image when popup is visible */}
+              <CirclePlus
+                alt="Add"
+                style={{ width: "36px", height: "36px" }}
+                className={isPopupVisible ? "rotate" : ""}
+              />
+            </button>
+          </div>
+        )}
       </div>
 
       {/* Popup */}
-      {isPopupVisible && (
+      {!isFriend && isPopupVisible && (
         <div className="popup-container">
           <div className="popup-content">
             <div className="popup-buttons">
