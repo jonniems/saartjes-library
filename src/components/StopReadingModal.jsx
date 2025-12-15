@@ -44,57 +44,61 @@ const StopReadingModal = ({ book, onConfirm, onCancel }) => {
           height="24px"
           onClick={onCancel}
         />
-        <div className="stop-reading-popup-details">
-          <h1>{book.title}</h1>
-          <h3>{book.author}</h3>
-          <div className="book-details-genre">
-            {book.is_fiction ? "Fiction" : "Non-Fiction"}
-          </div>
-          <hr />
-          <div className="reading-status">
-            <label>Did you finish {book.title}?</label>
-            <div className="reading-status-buttons">
-              <button
-                type="button"
-                className={
-                  readingComplete === true
-                    ? "status-button green active"
-                    : "status-button green"
-                }
-                onClick={() => setReadingComplete(true)}
-              >
-                I finished the book
-              </button>
-              <button
-                type="button"
-                className={
-                  readingComplete === false
-                    ? "status-button red active"
-                    : "status-button red"
-                }
-                onClick={() => setReadingComplete(false)}
-              >
-                I stopped reading
-              </button>
+        <div className="modal-content">
+          <div className="stop-reading-popup-details">
+            <h1>{book.title}</h1>
+            <h3>{book.author}</h3>
+            <div className="book-details-genre">
+              {book.is_fiction ? "Fiction" : "Non-Fiction"}
+            </div>
+            <hr />
+            <div className="reading-status">
+              <label>Did you finish {book.title}?</label>
+              <div className="reading-status-buttons">
+                <button
+                  type="button"
+                  className={
+                    readingComplete === true
+                      ? "status-button green active"
+                      : "status-button green"
+                  }
+                  onClick={() => setReadingComplete(true)}
+                >
+                  I finished the book
+                </button>
+                <button
+                  type="button"
+                  className={
+                    readingComplete === false
+                      ? "status-button red active"
+                      : "status-button red"
+                  }
+                  onClick={() => setReadingComplete(false)}
+                >
+                  I stopped reading
+                </button>
+              </div>
+            </div>
+            <div className="reading-status">
+              <label>How do you rate {book.title}?</label>
+              <div className="reading-status-rate">
+                {renderRateCircles(rating)}
+              </div>
+            </div>
+            <div className="reading-status-preservation">
+              <label>
+                <input
+                  type="checkbox"
+                  checked={preservationBook}
+                  onChange={() => setPreservationBook(!preservationBook)}
+                />
+                <span></span>
+                Preservation book
+              </label>
             </div>
           </div>
-          <div className="reading-status">
-            <label>How do you rate {book.title}?</label>
-            <div className="reading-status-rate">
-              {renderRateCircles(rating)}
-            </div>
-          </div>
-          <div className="reading-status-preservation">
-            <label>
-              <input
-                type="checkbox"
-                checked={preservationBook}
-                onChange={() => setPreservationBook(!preservationBook)}
-              />
-              <span></span>
-              Preservation book
-            </label>
-          </div>
+        </div>
+        <div className="modal-buttons">
           <button onClick={handleSubmit} className="reading-status-save">
             Stop reading
           </button>

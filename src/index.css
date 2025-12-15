@@ -5,7 +5,7 @@
   --library-black: #000000;
   --library-gray: #999999;
   --library-red: #830c0c;
-  --library-green: #  ;
+  --library-green: #4b9f6b;
 }
 
 * {
@@ -615,16 +615,47 @@ input[type="date"] {
   bottom: 0;
   background: var(--library-yellow);
   display: flex;
-  width: 100%;
+  overflow: hidden;
+  z-index: 1000;
+}
+
+.modal-content {
+  flex-grow: 1; /* Laat dit element alle resterende verticale ruimte innemen */
+  overflow-y: auto; /* MAAK DIT GEDEELTE SCROLLBAAR */
+  padding-bottom: 20px; /* Extra ruimte zodat het laatste veld niet tegen de knoppen aanligt */
+}
+
+.modal-buttons {
+  /* Zorg dat de knoppen altijd zichtbaar zijn en niet scrollen */
+  padding-top: 10px; /* Scheiding van de scrollende content */
+  /* Optioneel: Achtergrondkleur geven om de scroll-content te overlappen */
+  background-color: var(--library-yellow);
+  /* Zorgt dat de knoppen onderaan blijven, 
+     ze nemen hun natuurlijke hoogte in */
+  flex-shrink: 0;
+}
+
+.modal-buttons button {
+  width: 100%; /* Zorg dat de knoppen de volledige breedte innemen */
+  margin-bottom: 8px; /* Ruimte tussen de knoppen */
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
 .stop-reading-popup-content {
   padding: 20px;
   width: 100%;
+  height: 100%; /* Zorgt dat het de volledige hoogte inneemt */
+  display: flex;
+  flex-direction: column; /* Stapelt items verticaal */
+  justify-content: space-between;
+  box-sizing: border-box; /* Zorgt ervoor dat padding binnen de 100% hoogte blijft */
 }
 
 .stop-reading-popup-close-icon {
   float: right;
+  align-self: flex-end;
 }
 
 .stop-reading-popup-details {
@@ -735,7 +766,8 @@ input[type="date"] {
   align-items: center;
 }
 
-.reading-status-save, .reading-status-cancel {
+.reading-status-save,
+.reading-status-cancel {
   padding: 12px;
   border: 1px solid var(--library-black);
   border-radius: 0;
@@ -743,8 +775,8 @@ input[type="date"] {
   background-color: var(--library-black);
   color: var(--library-yellow);
   font-size: 24px;
-  width: -webkit-fill-available;
-  margin-top: 36px;
+  width: 100%;
+  margin-top: 0;
 }
 
 .reading-status-cancel {
@@ -764,13 +796,15 @@ input[type="date"] {
   justify-content: space-between;
 }
 
-.go-back, .edit {
+.go-back,
+.edit {
   font-style: italic;
   display: flex;
   margin-bottom: 12px;
 }
 
-.go-back a, .edit a {
+.go-back a,
+.edit a {
   color: var(--library-gray);
   text-decoration: none;
 }

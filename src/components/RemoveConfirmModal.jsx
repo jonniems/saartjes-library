@@ -18,27 +18,35 @@ const RemoveConfirmModal = ({ book, onConfirm, onCancel }) => {
           width="24px"
           height="24px"
         />
-        <div className="stop-reading-popup-details">
-          <h3>
-            <i>
-              Are you sure you want to remove {book.title} from your library?
-            </i>
-          </h3>
-          <div className="confirmation-buttons">
-            <button
-              type="button"
-              className="confirm-button"
-              onClick={onConfirm}
-            >
-              Yes, I&apos;m sure
-            </button>
-            <button type="button" className="cancel-button" onClick={onCancel}>
-              No, I&apos;ll keep it for now
-            </button>
+        <div className="modal-content">
+          <div className="stop-reading-popup-details">
+            <h3>
+              <i>
+                Are you sure you want to remove {book.title} from your library?
+              </i>
+            </h3>
+          </div>
+          </div>
+          <div className="modal-buttons">
+            <div className="confirmation-buttons">
+              <button
+                type="button"
+                className="confirm-button"
+                onClick={onConfirm}
+              >
+                Yes, I&apos;m sure
+              </button>
+              <button
+                type="button"
+                className="cancel-button"
+                onClick={onCancel}
+              >
+                No, I&apos;ll keep it for now
+              </button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
   );
 };
 

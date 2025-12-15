@@ -38,55 +38,58 @@ const StartReadingModal = ({ book, onConfirm, onCancel }) => {
           height="24px"
           onClick={onCancel}
         />
-        <div className="stop-reading-popup-details">
-          <h1>{book.title}</h1>
-          <h3>{book.author}</h3>
-          <hr />
-          <div className="start-reading-question">
-            <label>
-              <h3>
-                <i>When did you start reading {book.title}?</i>
-              </h3>
-            </label>
-
-            <div className="add-book-options">
+        <div className="modal-content">
+          <div className="stop-reading-popup-details">
+            <h1>{book.title}</h1>
+            <h3>{book.author}</h3>
+            <hr />
+            <div className="start-reading-question">
               <label>
-                <input
-                  type="radio"
-                  name="startDateOption"
-                  value="today"
-                  checked={startDateOption === "today"}
-                  onChange={() => setStartDateOption("today")}
-                />
-                <span></span>
-                Today
+                <h3>
+                  <i>When did you start reading {book.title}?</i>
+                </h3>
               </label>
 
-              <label>
-                <input
-                  type="radio"
-                  name="startDateOption"
-                  value="choose"
-                  checked={startDateOption === "choose"}
-                  onChange={() => setStartDateOption("choose")}
-                />
-                <span></span>
-                Choose a date
-              </label>
-            </div>
+              <div className="add-book-options">
+                <label>
+                  <input
+                    type="radio"
+                    name="startDateOption"
+                    value="today"
+                    checked={startDateOption === "today"}
+                    onChange={() => setStartDateOption("today")}
+                  />
+                  <span></span>
+                  Today
+                </label>
 
-            {startDateOption === "choose" && (
-              <div className="add-book-date">
-                <input
-                  type="date"
-                  value={selectedStartDate}
-                  onChange={(e) => setSelectedStartDate(e.target.value)}
-                  max={new Date().toISOString().substring(0, 10)}
-                />
+                <label>
+                  <input
+                    type="radio"
+                    name="startDateOption"
+                    value="choose"
+                    checked={startDateOption === "choose"}
+                    onChange={() => setStartDateOption("choose")}
+                  />
+                  <span></span>
+                  Choose a date
+                </label>
               </div>
-            )}
-          </div>
 
+              {startDateOption === "choose" && (
+                <div className="add-book-date">
+                  <input
+                    type="date"
+                    value={selectedStartDate}
+                    onChange={(e) => setSelectedStartDate(e.target.value)}
+                    max={new Date().toISOString().substring(0, 10)}
+                  />
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+        <div className="modal-buttons">
           <div className="confirmation-buttons">
             <button
               type="button"
