@@ -5,7 +5,7 @@ import StartReadingModal from "../components/StartReadingModal.jsx";
 import StopReadingModal from "../components/StopReadingModal.jsx";
 import RemoveConfirmModal from "../components/RemoveConfirmModal.jsx";
 import EditBookModal from "../components/EditBookModal.jsx";
-import { useVisitorMode } from "../context/VisitorModeContext.jsx";
+import { useVisitorMode } from "../context/useVisitorMode.js";
 
 import BackIcon from "../assets/icons/back.svg?react";
 

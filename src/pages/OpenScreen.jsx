@@ -1,6 +1,6 @@
 import "./OpenScreen.css";
 import { useEffect } from "react";
-import { useVisitorMode } from "../context/VisitorModeContext.jsx";
+import { useVisitorMode } from "../context/useVisitorMode.js";
 import Logo from "../assets/icons/logo.png";
 
 const OpenScreen = () => {

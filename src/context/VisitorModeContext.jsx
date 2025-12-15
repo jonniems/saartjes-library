@@ -1,8 +1,9 @@
-import { createContext, useContext, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
+import PropTypes from "prop-types";
+import { VisitorModeContext } from "./useVisitorMode";
 
-const VisitorModeContext = createContext(null);
-
-export const VisitorModeProvider = ({ children }) => {
+export const VisitorModeProvider = (props) => {
+  const { children } = props;
   const [mode, setMode] = useState(null);
 
   const value = useMemo(
@@ -23,11 +24,6 @@ export const VisitorModeProvider = ({ children }) => {
   );
 };
 
-export const useVisitorMode = () => {
-  const ctx = useContext(VisitorModeContext);
-  if (!ctx) {
-    throw new Error("useVisitorMode must be used inside VisitorModeProvider");
-  }
-  return ctx;
+VisitorModeProvider.propTypes = {
+  children: PropTypes.node.isRequired,
 };
-

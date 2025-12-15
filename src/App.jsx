@@ -10,7 +10,7 @@ import LibraryBookDetails from "./pages/LibraryBookDetails.jsx";
 import AddBookLibrary from "./pages/AddBookLibrary.jsx";
 import AddBookWishlist from "./pages/AddBookWishlist.jsx";
 import OpenScreen from "./pages/OpenScreen.jsx";
-import { useVisitorMode } from "./context/VisitorModeContext.jsx";
+import { useVisitorMode } from "./context/useVisitorMode.js";
 
 function App() {
   const { mode } = useVisitorMode();

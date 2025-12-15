@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import CirclePlus from "../assets/icons/circle-plus.svg?react";
 import LibraryIcon from "../assets/icons/library.svg?react";
 import HeartIcon from "../assets/icons/heart.svg?react";
-import { useVisitorMode } from "../context/VisitorModeContext.jsx";
+import { useVisitorMode } from "../context/useVisitorMode.js";
 
 function Header() {
   const { isFriend } = useVisitorMode();
