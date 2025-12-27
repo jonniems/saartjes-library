@@ -88,7 +88,9 @@ function Summary() {
           supabase
             .from("library")
             .select("*")
+            .not("on_wishlist", "is", null)
             .is("off_wishlist", null)
+            .eq("in_library", false)
             .order("on_wishlist", { ascending: false })
             .limit(1),
         ]);

@@ -11,6 +11,7 @@ const AddBookLibrary = () => {
   const [inLibraryFrom, setInLibraryFrom] = useState("today"); // Default to "today"
   const [manualDate, setManualDate] = useState(""); // To store the manually selected date
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
   const navigate = useNavigate(); // to redirect after success
 
   const handleGoBack = () => {
@@ -19,6 +20,13 @@ const AddBookLibrary = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    // Prevent double submission
+    if (loading) {
+      return;
+    }
+    
+    setError(null);
     setLoading(true);
 
     const inLibraryDate =
@@ -26,31 +34,55 @@ const AddBookLibrary = () => {
         ? new Date().toISOString().split("T")[0]
         : manualDate;
 
-    // Add the new book to the Supabase database
-    const { error } = await supabase.from("library").insert([
-      {
-        title,
-        author,
-        is_fiction: isFiction,
-        is_gift: isGift,
-        in_library_from: inLibraryDate,
-        in_library: true,
-      },
-    ]);
-
-    if (error) {
-      console.error("Error adding book:", error.message);
+    // Validate manual date if manual option is selected
+    if (inLibraryFrom === "manual" && !manualDate) {
+      setError("Please select a date when choosing 'Choose a date' option.");
       setLoading(false);
       return;
     }
 
-    // Create the success message
-    const successMessage = `${title} by ${author} was successfully added to your library`;
+    try {
+      // Add the new book to the Supabase database
+      const { error: dbError, data } = await supabase
+        .from("library")
+        .insert([
+          {
+            title,
+            author,
+            is_fiction: isFiction,
+            is_gift: isGift,
+            in_library_from: inLibraryDate,
+            in_library: true,
+          },
+        ])
+        .select();
 
-    // After successfully adding, navigate to the library page and pass the success message
-    navigate("/library", { state: { successMessage } });
+      if (dbError) {
+        console.error("Error adding book:", dbError);
+        
+        // Provide user-friendly error message for common issues
+        let errorMessage = "Failed to add book. ";
+        if (dbError.message.includes("duplicate key") || dbError.message.includes("unique constraint")) {
+          errorMessage += "There was a database conflict. Please try again, or contact support if the issue persists.";
+        } else {
+          errorMessage += dbError.message;
+        }
+        
+        setError(errorMessage);
+        setLoading(false);
+        return;
+      }
 
-    setLoading(false); // End loading state
+      // Create the success message
+      const successMessage = `${title} by ${author} was successfully added to your library`;
+
+      // After successfully adding, navigate to the library page and pass the success message
+      navigate("/library", { state: { successMessage } });
+    } catch (err) {
+      console.error("Unexpected error:", err);
+      setError("An unexpected error occurred. Please try again.");
+      setLoading(false);
+    }
   };
 
   return (
@@ -62,6 +94,11 @@ const AddBookLibrary = () => {
           <span>go back</span>
         </Link>
       </div>
+      {error && (
+        <div style={{ color: "red", padding: "12px", marginBottom: "12px" }}>
+          {error}
+        </div>
+      )}
       <form onSubmit={handleSubmit}>
         <div className="add-book">
           <input
@@ -164,6 +201,7 @@ const AddBookLibrary = () => {
               id="manualDate"
               value={manualDate}
               onChange={(e) => setManualDate(e.target.value)}
+              required
             />
           </div>
         )}
